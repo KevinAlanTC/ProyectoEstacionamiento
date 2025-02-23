@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter; // Biblioteca para formatear la hora 
 public class VentanaPrincipal extends JFrame 
 {
 	private static JFrame ventana;
-	private static JPanel primeraPantalla, elegirServicio, escogerLugarPension;
+	private static JPanel primeraPantalla, elegirServicio, elegirSalida;
 	private static JLabel horaHMS;
 	
 	private static GestionLugaresEstacionamiento claseGLE;
@@ -84,7 +84,7 @@ public class VentanaPrincipal extends JFrame
         
         // Se instancia un botón para que el usuario registre la salida
         JButton botonSalida = new JButton("Salida");
-        botonSalida.addActionListener(e -> mostrarPantallaSalida());
+        botonSalida.addActionListener(e -> mostrarPantallaSalida(primeraPantalla));
         botonSalida.setBounds(251, 150, 200, 50);
         primeraPantalla.add(botonSalida);
         
@@ -120,9 +120,32 @@ public class VentanaPrincipal extends JFrame
 	}
 	
 	
-	private static void mostrarPantallaSalida()
+	private static void mostrarPantallaSalida(JPanel pantallaAnterior)
 	{
+		ocultarPantallaAnterior(pantallaAnterior);
 		
+		// Se instancia el panel principal de esta función
+		elegirSalida = new JPanel();
+		elegirSalida.setLayout(null);
+		
+		// Se intancia en una etiqueta la instrucción que debe seguir el usuario
+		JLabel instruccion = new JLabel("Seleciona la opción que deseas:");
+		instruccion.setBounds(10, 10, 250, 50);
+		elegirSalida.add(instruccion);
+		
+		// Se instancia un botón para que el usuario elija salir del estacionamiento
+		JButton salidaEstacionamiento = new JButton("Voy a salir del estacionamiento");
+		salidaEstacionamiento.addActionListener(e -> claseVE.mostrarSalidaEstacionamiento(elegirSalida));
+		salidaEstacionamiento.setBounds(50, 200, 400, 100);
+		elegirSalida.add(salidaEstacionamiento);
+		
+		// Se instancia un botón para que el usario elija recoger su auto de pensión
+		JButton salidaPension = new JButton("Voy a recoger mi coche de pensión");
+		salidaPension.addActionListener(e -> claseVP.mostrarSalidaPension(elegirSalida));
+		salidaPension.setBounds(50, 400, 400, 100);
+		elegirSalida.add(salidaPension);
+		
+		mostrarPantallaActual(elegirSalida);
 	}
 
 }

@@ -6,7 +6,7 @@ import java.awt.*;
 public class VentanasEstacionamiento {
     private GestionLugaresEstacionamiento claseGLE;
     
-    private JPanel escogerLugarEstacionamiento, detallesEstacionamiento;
+    private JPanel escogerLugarEstacionamiento, detallesEstacionamiento, panelSalidaEstacionamiento;
 
     public VentanasEstacionamiento(GestionLugaresEstacionamiento claseGLE) 
     {
@@ -60,7 +60,8 @@ public class VentanasEstacionamiento {
         VentanaPrincipal.mostrarPantallaActual(escogerLugarEstacionamiento);
     }
     
-    public void mostrarConfirmacionReserva(JPanel pantallaAnterior, int tipoVehiculo, int lugar) {
+    public void mostrarConfirmacionReserva(JPanel pantallaAnterior, int tipoVehiculo, int lugar) 
+    {
         VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
 
         // Se instancia el panel principal de esta función
@@ -92,4 +93,19 @@ public class VentanasEstacionamiento {
 
         VentanaPrincipal.mostrarPantallaActual(confirmacionReserva);
     }
+    
+	
+	public void mostrarSalidaEstacionamiento(JPanel pantallaAnterior)
+	{
+		VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+		
+		// Se instancia el panel principal de esta función
+		panelSalidaEstacionamiento = new JPanel();
+		panelSalidaEstacionamiento.setLayout(null);
+		
+		// Codigo de la funcion
+		
+		VentanaPrincipal.mostrarPantallaActual(panelSalidaEstacionamiento);
+	}
+
 }

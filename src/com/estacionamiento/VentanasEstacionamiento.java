@@ -95,17 +95,80 @@ public class VentanasEstacionamiento {
     }
     
 	
-	public void mostrarSalidaEstacionamiento(JPanel pantallaAnterior)
-	{
-		VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
-		
-		// Se instancia el panel principal de esta función
-		panelSalidaEstacionamiento = new JPanel();
-		panelSalidaEstacionamiento.setLayout(null);
-		
-		// Codigo de la funcion
-		
-		VentanaPrincipal.mostrarPantallaActual(panelSalidaEstacionamiento);
-	}
+    public void mostrarPantallaPago(JPanel pantallaAnterior, int tipoVehiculo, int lugar) 
+    {
+        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+
+        // Se instancia el panel principal de esta función
+        JPanel pantallaPago = new JPanel();
+        pantallaPago.setLayout(null);
+
+        // Mensaje de confirmación
+        JLabel mensajePago = new JLabel("Por favor, realice su pago para completar el proceso de salida.");
+        mensajePago.setBounds(10, 10, 400, 50);
+        pantallaPago.add(mensajePago);
+
+        // Detalles del pago
+        JLabel detallesPago = new JLabel("Detalles del Pago:");
+        detallesPago.setBounds(10, 70, 200, 50);
+        pantallaPago.add(detallesPago);
+
+        // Opciones de Pago (solo un ejemplo básico)
+        JButton botonPagoTarjeta = new JButton("Pagar con Tarjeta");
+        botonPagoTarjeta.setBounds(10, 130, 200, 50);
+        botonPagoTarjeta.addActionListener(e -> mostrarPantallaConfirmacion(pantallaPago));
+        pantallaPago.add(botonPagoTarjeta);
+
+        JButton botonPagoEfectivo = new JButton("Pagar en Efectivo");
+        botonPagoEfectivo.setBounds(220, 130, 200, 50);
+        botonPagoEfectivo.addActionListener(e -> mostrarPantallaConfirmacion(pantallaPago));
+        pantallaPago.add(botonPagoEfectivo);
+
+        VentanaPrincipal.mostrarPantallaActual(pantallaPago);
+    }
+
+    public void mostrarPantallaConfirmacion(JPanel pantallaAnterior)
+    {
+        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+
+        // Se instancia el panel principal de esta función
+        JPanel pantallaConfirmacion = new JPanel();
+        pantallaConfirmacion.setLayout(null);
+
+        // Mensaje de confirmación de pago
+        JLabel mensajeConfirmacion = new JLabel("Pago realizado con éxito. Gracias por su visita.");
+        mensajeConfirmacion.setBounds(10, 10, 300, 50);
+        pantallaConfirmacion.add(mensajeConfirmacion);
+
+        // Botón para finalizar
+        JButton botonFinalizar = new JButton("Finalizar");
+        botonFinalizar.setBounds(10, 70, 100, 50);
+        botonFinalizar.addActionListener(e -> VentanaPrincipal.mostrarPrimeraPantalla(pantallaConfirmacion));
+        pantallaConfirmacion.add(botonFinalizar);
+
+        VentanaPrincipal.mostrarPantallaActual(pantallaConfirmacion);
+    }
+    
+    public void mostrarSalidaEstacionamiento(JPanel pantallaAnterior)
+    {
+        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+
+        // Se instancia el panel principal de esta función
+        panelSalidaEstacionamiento = new JPanel();
+        panelSalidaEstacionamiento.setLayout(null);
+
+        // Se instancia una etiqueta con una despedida para el usuario
+        JLabel despedida = new JLabel("Gracias por visitarnos, por favor realice su pago.");
+        despedida.setBounds(10, 10, 400, 50);
+        panelSalidaEstacionamiento.add(despedida);
+
+        JButton botonPagar = new JButton("Realizar Pago");
+        botonPagar.setBounds(10, 70, 200, 50);
+        botonPagar.addActionListener(e -> mostrarPantallaPago(panelSalidaEstacionamiento, 0, 0)); // Ajusta según sea necesario
+        panelSalidaEstacionamiento.add(botonPagar);
+
+        VentanaPrincipal.mostrarPantallaActual(panelSalidaEstacionamiento);
+    }
+
 
 }

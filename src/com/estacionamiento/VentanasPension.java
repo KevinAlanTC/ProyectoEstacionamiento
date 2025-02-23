@@ -6,7 +6,7 @@ import java.awt.*;
 public class VentanasPension 
 {
     private GestionLugaresPension claseGLP;
-    private JPanel escogerLugarPension;
+    private JPanel escogerLugarPension, panelSalidaPension;
 
     public VentanasPension(GestionLugaresPension claseGLP) 
     {
@@ -75,4 +75,17 @@ public class VentanasPension
 
         VentanaPrincipal.mostrarPantallaActual(confirmacionReserva);
     }
+    
+    public void mostrarSalidaPension(JPanel pantallaAnterior)
+	{
+		VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+		
+		// Se instancia el panel principal de esta función
+		panelSalidaPension = new JPanel();
+		panelSalidaPension.setLayout(null);
+		
+		// Codigo de la funcion
+		
+		VentanaPrincipal.mostrarPantallaActual(panelSalidaPension);
+	}
 }

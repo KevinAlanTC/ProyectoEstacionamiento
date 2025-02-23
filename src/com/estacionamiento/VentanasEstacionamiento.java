@@ -6,8 +6,9 @@ import java.awt.*;
 public class VentanasEstacionamiento {
     private GestionLugaresEstacionamiento claseGLE;
     
-    private JPanel escogerLugarEstacionamiento, detallesEstacionamiento;
+    private JPanel escogerLugarEstacionamiento, panelSalidaEstacionamiento;
 
+    // Constructor que recibe una instancia de GestionLugaresEstacionamiento
     public VentanasEstacionamiento(GestionLugaresEstacionamiento claseGLE) 
     {
         this.claseGLE = claseGLE;
@@ -60,16 +61,20 @@ public class VentanasEstacionamiento {
         VentanaPrincipal.mostrarPantallaActual(escogerLugarEstacionamiento);
     }
     
-    public void mostrarConfirmacionReserva(JPanel pantallaAnterior, int tipoVehiculo, int lugar) {
+    public void mostrarConfirmacionReserva(JPanel pantallaAnterior, int tipoVehiculo, int lugar) 
+    {
         VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
 
         // Se instancia el panel principal de esta función
         JPanel confirmacionReserva = new JPanel();
         confirmacionReserva.setLayout(null);
+        
+        // Asignar un número de boleto único
+        int numeroBoleto = (tipoVehiculo == 0 ? 1000 : 2000) + lugar;
 
         // Mensaje de confirmación
-        JLabel mensajeConfirmacion = new JLabel("Reserva confirmada!");
-        mensajeConfirmacion.setBounds(10, 10, 200, 50);
+        JLabel mensajeConfirmacion = new JLabel("Reserva confirmada! Tu número de boleto es: " + numeroBoleto);
+        mensajeConfirmacion.setBounds(10, 10, 300, 50);
         confirmacionReserva.add(mensajeConfirmacion);
 
         // Detalles de la reserva
@@ -88,8 +93,91 @@ public class VentanasEstacionamiento {
         // Botón de confirmación
         JButton botonConfirmar = new JButton("Confirmar");
         botonConfirmar.setBounds(10, 250, 100, 50);
+        botonConfirmar.addActionListener(e -> VentanaPrincipal.mostrarPrimeraPantalla(confirmacionReserva));
         confirmacionReserva.add(botonConfirmar);
 
         VentanaPrincipal.mostrarPantallaActual(confirmacionReserva);
     }
+    
+    public void mostrarSalidaEstacionamiento(JPanel pantallaAnterior)
+    {
+        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+
+        // Se instancia el panel principal de esta función
+        panelSalidaEstacionamiento = new JPanel();
+        panelSalidaEstacionamiento.setLayout(null);
+
+        // Se instancia una etiqueta con una despedida para el usuario y se le solicita su no. de boleto
+        JLabel despedida = new JLabel("Gracias por visitarnos. Por favor, ingresa tu número de boleto para salir.");
+        despedida.setBounds(10, 10, 400, 50);
+        panelSalidaEstacionamiento.add(despedida);
+
+        JTextField campoBoleto = new JTextField();
+        campoBoleto.setBounds(10, 70, 200, 30);
+        panelSalidaEstacionamiento.add(campoBoleto);
+
+        // Botón para verificar el número de boleto ingresado
+        JButton botonVerificar = new JButton("Verificar Boleto");
+        botonVerificar.setBounds(220, 70, 150, 30);
+        botonVerificar.addActionListener(e -> claseGLE.verificarBoleto(panelSalidaEstacionamiento, campoBoleto.getText()));
+        panelSalidaEstacionamiento.add(botonVerificar);
+
+        VentanaPrincipal.mostrarPantallaActual(panelSalidaEstacionamiento);
+    }
+
+	
+    public void mostrarPantallaPago(JPanel pantallaAnterior, int tipoVehiculo, int lugar) 
+    {
+        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+
+        // Se instancia el panel principal de esta función
+        JPanel pantallaPago = new JPanel();
+        pantallaPago.setLayout(null);
+
+        // Mensaje de confirmación
+        JLabel mensajePago = new JLabel("Por favor, realice su pago para completar el proceso de salida.");
+        mensajePago.setBounds(10, 10, 400, 50);
+        pantallaPago.add(mensajePago);
+
+        // Detalles del pago
+        JLabel detallesPago = new JLabel("Detalles del Pago:");
+        detallesPago.setBounds(10, 70, 200, 50);
+        pantallaPago.add(detallesPago);
+
+        // Opciones de Pago (solo un ejemplo básico)
+        JButton botonPagoTarjeta = new JButton("Pagar con Tarjeta");
+        botonPagoTarjeta.setBounds(10, 130, 200, 50);
+        botonPagoTarjeta.addActionListener(e -> mostrarPantallaConfirmacion(pantallaPago));
+        pantallaPago.add(botonPagoTarjeta);
+
+        JButton botonPagoEfectivo = new JButton("Pagar en Efectivo");
+        botonPagoEfectivo.setBounds(220, 130, 200, 50);
+        botonPagoEfectivo.addActionListener(e -> mostrarPantallaConfirmacion(pantallaPago));
+        pantallaPago.add(botonPagoEfectivo);
+
+        VentanaPrincipal.mostrarPantallaActual(pantallaPago);
+    }
+
+    public void mostrarPantallaConfirmacion(JPanel pantallaAnterior)
+    {
+        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+
+        // Se instancia el panel principal de esta función
+        JPanel pantallaConfirmacion = new JPanel();
+        pantallaConfirmacion.setLayout(null);
+
+        // Mensaje de confirmación de pago
+        JLabel mensajeConfirmacion = new JLabel("Pago realizado con éxito. Gracias por su visita.");
+        mensajeConfirmacion.setBounds(10, 10, 300, 50);
+        pantallaConfirmacion.add(mensajeConfirmacion);
+
+        // Botón para finalizar
+        JButton botonFinalizar = new JButton("Finalizar");
+        botonFinalizar.setBounds(10, 70, 100, 50);
+        botonFinalizar.addActionListener(e -> VentanaPrincipal.mostrarPrimeraPantalla(pantallaConfirmacion));
+        pantallaConfirmacion.add(botonFinalizar);
+
+        VentanaPrincipal.mostrarPantallaActual(pantallaConfirmacion);
+    }
+    
 }

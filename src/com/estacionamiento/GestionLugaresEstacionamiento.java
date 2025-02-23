@@ -65,26 +65,31 @@ public class GestionLugaresEstacionamiento
         }
     }
     
-    public void inicializarLugaresPension() // Pendiente a revisar si en pensión hay motos
+    // Método para verificar el número de boleto ingresado por el usuario
+    public void verificarBoleto(JPanel pantallaAnterior, String numeroBoletoStr) 
     {
-        revisionLugaresEstacionamiento = new boolean[2][8]; // [0] para coches, [1] para motos
-        boletoLugaresEstacionamiento = new char[2][8];
-
-        char[] boletoLugaresEstacionamientoCoches = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
-        char[] boletoLugaresEstacionamientoMotos = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
-
-        // Asignar los boletos a los lugares correspondientes
-        for (int i = 0; i < 8; i++) 
+        try 
         {
-            boletoLugaresEstacionamiento[0][i] = boletoLugaresEstacionamientoCoches[i];
-            boletoLugaresEstacionamiento[1][i] = boletoLugaresEstacionamientoMotos[i];
-        }
+            int numeroBoleto = Integer.parseInt(numeroBoletoStr);
+            int tipoVehiculo = (numeroBoleto >= 2000) ? 1 : 0; // Determina el tipo de vehículo basado en el número de boleto
+            int lugar = numeroBoleto % 1000; // Obtiene el número de lugar del boleto
 
-        // Asignar false a los lugares para indicar que están libres
-        for (int i = 0; i < 8; i++) 
+            // Verifica si el lugar está ocupado y el boleto es válido
+            if (revisionLugaresEstacionamiento[tipoVehiculo][lugar]) 
+            {
+                JOptionPane.showMessageDialog(null, "Boleto verificado. Puede salir del estacionamiento.");
+                revisionLugaresEstacionamiento[tipoVehiculo][lugar] = false; // Marca el lugar como desocupado
+                claseVE.mostrarPantallaPago(pantallaAnterior, tipoVehiculo, lugar); // Muestra la pantalla de pago
+            } 
+            else 
+            {
+                JOptionPane.showMessageDialog(null, "Boleto no válido o lugar ya está libre.");
+            }
+        } 
+        catch (NumberFormatException e) 
         {
-            revisionLugaresEstacionamiento[0][i] = false;
-            revisionLugaresEstacionamiento[1][i] = false;
+            JOptionPane.showMessageDialog(null, "Número de boleto no válido.");
         }
     }
+    
 }

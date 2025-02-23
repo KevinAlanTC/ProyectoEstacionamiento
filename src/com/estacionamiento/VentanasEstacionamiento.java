@@ -8,6 +8,7 @@ public class VentanasEstacionamiento {
     
     private JPanel escogerLugarEstacionamiento, detallesEstacionamiento, panelSalidaEstacionamiento;
 
+    // Constructor que recibe una instancia de GestionLugaresEstacionamiento
     public VentanasEstacionamiento(GestionLugaresEstacionamiento claseGLE) 
     {
         this.claseGLE = claseGLE;
@@ -67,10 +68,13 @@ public class VentanasEstacionamiento {
         // Se instancia el panel principal de esta función
         JPanel confirmacionReserva = new JPanel();
         confirmacionReserva.setLayout(null);
+        
+        // Asignar un número de boleto único
+        int numeroBoleto = (tipoVehiculo == 0 ? 1000 : 2000) + lugar;
 
         // Mensaje de confirmación
-        JLabel mensajeConfirmacion = new JLabel("Reserva confirmada!");
-        mensajeConfirmacion.setBounds(10, 10, 200, 50);
+        JLabel mensajeConfirmacion = new JLabel("Reserva confirmada! Tu número de boleto es: " + numeroBoleto);
+        mensajeConfirmacion.setBounds(10, 10, 300, 50);
         confirmacionReserva.add(mensajeConfirmacion);
 
         // Detalles de la reserva
@@ -94,6 +98,32 @@ public class VentanasEstacionamiento {
         VentanaPrincipal.mostrarPantallaActual(confirmacionReserva);
     }
     
+    public void mostrarSalidaEstacionamiento(JPanel pantallaAnterior)
+    {
+        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+
+        // Se instancia el panel principal de esta función
+        panelSalidaEstacionamiento = new JPanel();
+        panelSalidaEstacionamiento.setLayout(null);
+
+        // Se instancia una etiqueta con una despedida para el usuario y se le solicita su no. de boleto
+        JLabel despedida = new JLabel("Gracias por visitarnos. Por favor, ingresa tu número de boleto para salir.");
+        despedida.setBounds(10, 10, 400, 50);
+        panelSalidaEstacionamiento.add(despedida);
+
+        JTextField campoBoleto = new JTextField();
+        campoBoleto.setBounds(10, 70, 200, 30);
+        panelSalidaEstacionamiento.add(campoBoleto);
+
+        // Botón para verificar el número de boleto ingresado
+        JButton botonVerificar = new JButton("Verificar Boleto");
+        botonVerificar.setBounds(220, 70, 150, 30);
+        botonVerificar.addActionListener(e -> claseGLE.verificarBoleto(panelSalidaEstacionamiento, campoBoleto.getText()));
+        panelSalidaEstacionamiento.add(botonVerificar);
+
+        VentanaPrincipal.mostrarPantallaActual(panelSalidaEstacionamiento);
+    }
+
 	
     public void mostrarPantallaPago(JPanel pantallaAnterior, int tipoVehiculo, int lugar) 
     {
@@ -149,26 +179,4 @@ public class VentanasEstacionamiento {
         VentanaPrincipal.mostrarPantallaActual(pantallaConfirmacion);
     }
     
-    public void mostrarSalidaEstacionamiento(JPanel pantallaAnterior)
-    {
-        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
-
-        // Se instancia el panel principal de esta función
-        panelSalidaEstacionamiento = new JPanel();
-        panelSalidaEstacionamiento.setLayout(null);
-
-        // Se instancia una etiqueta con una despedida para el usuario
-        JLabel despedida = new JLabel("Gracias por visitarnos, por favor realice su pago.");
-        despedida.setBounds(10, 10, 400, 50);
-        panelSalidaEstacionamiento.add(despedida);
-
-        JButton botonPagar = new JButton("Realizar Pago");
-        botonPagar.setBounds(10, 70, 200, 50);
-        botonPagar.addActionListener(e -> mostrarPantallaPago(panelSalidaEstacionamiento, 0, 0)); // Ajusta según sea necesario
-        panelSalidaEstacionamiento.add(botonPagar);
-
-        VentanaPrincipal.mostrarPantallaActual(panelSalidaEstacionamiento);
-    }
-
-
 }

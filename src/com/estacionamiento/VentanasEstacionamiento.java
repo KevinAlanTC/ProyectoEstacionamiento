@@ -6,7 +6,7 @@ import java.awt.*;
 public class VentanasEstacionamiento {
     private GestionLugaresEstacionamiento claseGLE;
     
-    private JPanel escogerLugarEstacionamiento, detallesEstacionamiento, panelSalidaEstacionamiento;
+    private JPanel escogerLugarEstacionamiento, panelSalidaEstacionamiento;
 
     // Constructor que recibe una instancia de GestionLugaresEstacionamiento
     public VentanasEstacionamiento(GestionLugaresEstacionamiento claseGLE) 
@@ -93,6 +93,7 @@ public class VentanasEstacionamiento {
         // Botón de confirmación
         JButton botonConfirmar = new JButton("Confirmar");
         botonConfirmar.setBounds(10, 250, 100, 50);
+        botonConfirmar.addActionListener(e -> VentanaPrincipal.mostrarPrimeraPantalla(confirmacionReserva));
         confirmacionReserva.add(botonConfirmar);
 
         VentanaPrincipal.mostrarPantallaActual(confirmacionReserva);

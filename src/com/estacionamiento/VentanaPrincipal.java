@@ -147,5 +147,5 @@ public class VentanaPrincipal extends JFrame
 		
 		mostrarPantallaActual(elegirSalida);
 	}
-
+	
 }

@@ -1,18 +1,23 @@
 package com.estacionamiento;
 
 import javax.swing.*;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GestionLugaresEstacionamiento 
 {
 	
     private boolean[][] revisionLugaresEstacionamiento;
     private char[][] boletoLugaresEstacionamiento;
+    private Map<Integer, LocalDateTime> tiempoEntrada; // Para registrar la hora de entrada
 
     private VentanasEstacionamiento claseVE;
     
     public GestionLugaresEstacionamiento() 
     {
         inicializarLugaresEstacionamiento();
+        tiempoEntrada = new HashMap<>();
     }
     
     public void setVentanasEstacionamiento(VentanasEstacionamiento ventanasEstacionamiento) 
@@ -56,6 +61,8 @@ public class GestionLugaresEstacionamiento
             {
             	JOptionPane.showMessageDialog(null, "Has seleccionado Sí.");
                 revisionLugaresEstacionamiento[tipoVehiculo][lugar] = true;
+                int uniqueKey = generarLlaveUnica(tipoVehiculo, lugar);
+                tiempoEntrada.put(uniqueKey, LocalDateTime.now()); // Registrar la hora de entrada
                 claseVE.mostrarConfirmacionReserva(pantallaActual, tipoVehiculo, lugar);
             } 
             else 
@@ -63,6 +70,24 @@ public class GestionLugaresEstacionamiento
             	JOptionPane.showMessageDialog(null, "Has seleccionado No. Elige otro lugar disponible.");
             }
         }
+    }
+    
+    public double calcularCosto(int tipoVehiculo, int lugar) 
+    {
+        int uniqueKey = generarLlaveUnica(tipoVehiculo, lugar);
+        LocalDateTime entrada = tiempoEntrada.get(uniqueKey);
+        LocalDateTime ahora = LocalDateTime.now();
+
+        // Calcula la diferencia en horas
+        long horas = java.time.Duration.between(entrada, ahora).toHours();
+
+        // Supongamos que el costo es de 10 unidades monetarias por hora
+        return horas * 10;
+    }
+
+    private int generarLlaveUnica(int tipoVehiculo, int lugar) 
+    {
+        return tipoVehiculo * 1000 + lugar;
     }
     
     // Método para verificar el número de boleto ingresado por el usuario
@@ -79,6 +104,7 @@ public class GestionLugaresEstacionamiento
             {
                 JOptionPane.showMessageDialog(null, "Boleto verificado. Puede salir del estacionamiento.");
                 revisionLugaresEstacionamiento[tipoVehiculo][lugar] = false; // Marca el lugar como desocupado
+                double costoTotal = calcularCosto(tipoVehiculo, lugar);
                 claseVE.mostrarPantallaPago(pantallaAnterior, tipoVehiculo, lugar); // Muestra la pantalla de pago
             } 
             else 

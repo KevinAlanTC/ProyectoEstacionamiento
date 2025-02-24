@@ -85,9 +85,14 @@ public class GestionLugaresEstacionamiento
         return horas * 10;
     }
 
-    private int generarLlaveUnica(int tipoVehiculo, int lugar) 
+    public int generarLlaveUnica(int tipoVehiculo, int lugar) 
     {
         return tipoVehiculo * 1000 + lugar;
+    }
+    
+    public LocalDateTime getTiempoEntrada(int uniqueKey) 
+    {
+        return tiempoEntrada.get(uniqueKey);
     }
     
     // Método para verificar el número de boleto ingresado por el usuario
@@ -105,7 +110,7 @@ public class GestionLugaresEstacionamiento
                 JOptionPane.showMessageDialog(null, "Boleto verificado. Puede salir del estacionamiento.");
                 revisionLugaresEstacionamiento[tipoVehiculo][lugar] = false; // Marca el lugar como desocupado
                 double costoTotal = calcularCosto(tipoVehiculo, lugar);
-                claseVE.mostrarPantallaPago(pantallaAnterior, tipoVehiculo, lugar); // Muestra la pantalla de pago
+                claseVE.mostrarPantallaPago(pantallaAnterior, tipoVehiculo, lugar, costoTotal); // Muestra la pantalla de pago
             } 
             else 
             {

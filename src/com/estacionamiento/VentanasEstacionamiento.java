@@ -2,8 +2,10 @@ package com.estacionamiento;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
 
-public class VentanasEstacionamiento {
+public class VentanasEstacionamiento 
+{
     private GestionLugaresEstacionamiento claseGLE;
     
     private JPanel escogerLugarEstacionamiento, panelSalidaEstacionamiento;
@@ -126,7 +128,7 @@ public class VentanasEstacionamiento {
     }
 
 	
-    public void mostrarPantallaPago(JPanel pantallaAnterior, int tipoVehiculo, int lugar) 
+    public void mostrarPantallaPago(JPanel pantallaAnterior, int tipoVehiculo, int lugar, double costoTotal) 
     {
         VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
 
@@ -144,6 +146,23 @@ public class VentanasEstacionamiento {
         detallesPago.setBounds(10, 70, 200, 50);
         pantallaPago.add(detallesPago);
 
+        // Mostrar la hora de entrada
+        int uniqueKey = claseGLE.generarLlaveUnica(tipoVehiculo, lugar);
+        LocalDateTime horaEntrada = claseGLE.getTiempoEntrada(uniqueKey);
+        JLabel horaEntradaLabel = new JLabel("Hora de Entrada: " + horaEntrada);
+        horaEntradaLabel.setBounds(10, 130, 300, 50);
+        pantallaPago.add(horaEntradaLabel);
+        
+        // Capturar y mostrar la hora de salida
+        LocalDateTime horaSalida = LocalDateTime.now();
+        JLabel horaSalidaLabel = new JLabel("Hora de Salida: " + horaSalida);
+        horaSalidaLabel.setBounds(10, 190, 300, 50);
+        pantallaPago.add(horaSalidaLabel);
+        
+        JLabel costoLabel = new JLabel("Costo total: " + costoTotal + " unidades monetarias");
+        costoLabel.setBounds(10, 250, 200, 50);
+        pantallaPago.add(costoLabel);
+        
         // Opciones de Pago (solo un ejemplo básico)
         JButton botonPagoTarjeta = new JButton("Pagar con Tarjeta");
         botonPagoTarjeta.setBounds(10, 130, 200, 50);

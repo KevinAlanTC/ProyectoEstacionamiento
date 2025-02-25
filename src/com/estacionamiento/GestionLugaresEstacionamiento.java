@@ -1,18 +1,23 @@
 package com.estacionamiento;
 
 import javax.swing.*;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GestionLugaresEstacionamiento 
 {
 	
     private boolean[][] revisionLugaresEstacionamiento;
     private char[][] boletoLugaresEstacionamiento;
+    private Map<Integer, LocalDateTime> tiempoEntrada; // Para registrar la hora de entrada
 
     private VentanasEstacionamiento claseVE;
     
     public GestionLugaresEstacionamiento() 
     {
         inicializarLugaresEstacionamiento();
+        tiempoEntrada = new HashMap<>();
     }
     
     public void setVentanasEstacionamiento(VentanasEstacionamiento ventanasEstacionamiento) 
@@ -56,6 +61,8 @@ public class GestionLugaresEstacionamiento
             {
             	JOptionPane.showMessageDialog(null, "Has seleccionado Sí.");
                 revisionLugaresEstacionamiento[tipoVehiculo][lugar] = true;
+                int uniqueKey = generarLlaveUnica(tipoVehiculo, lugar);
+                tiempoEntrada.put(uniqueKey, TiempoSimulado.ahora()); // Usamos el tiempo simulado // Registrar la hora de entrada
                 claseVE.mostrarConfirmacionReserva(pantallaActual, tipoVehiculo, lugar);
             } 
             else 
@@ -63,6 +70,32 @@ public class GestionLugaresEstacionamiento
             	JOptionPane.showMessageDialog(null, "Has seleccionado No. Elige otro lugar disponible.");
             }
         }
+    }
+    
+    public double calcularCosto(int tipoVehiculo, int lugar) 
+    {
+        int uniqueKey = generarLlaveUnica(tipoVehiculo, lugar);
+        LocalDateTime entrada = tiempoEntrada.get(uniqueKey);
+        LocalDateTime ahora = TiempoSimulado.ahora(); // Usamos el tiempo simulado
+
+        // Calculamos la diferencia en minutos simulados
+        long minutosSimulados = java.time.Duration.between(entrada, ahora).toMinutes();
+
+        // Convertimos minutos simulados a horas simuladas
+        long horasSimuladas = minutosSimulados / 60;
+        
+        // Supongamos que el costo es de 0.20 unidades monetarias por minuto
+        return horasSimuladas * 20;
+    }
+
+    public int generarLlaveUnica(int tipoVehiculo, int lugar) 
+    {
+        return tipoVehiculo * 1000 + lugar;
+    }
+    
+    public LocalDateTime getTiempoEntrada(int uniqueKey) 
+    {
+        return tiempoEntrada.get(uniqueKey);
     }
     
     // Método para verificar el número de boleto ingresado por el usuario
@@ -79,7 +112,8 @@ public class GestionLugaresEstacionamiento
             {
                 JOptionPane.showMessageDialog(null, "Boleto verificado. Puede salir del estacionamiento.");
                 revisionLugaresEstacionamiento[tipoVehiculo][lugar] = false; // Marca el lugar como desocupado
-                claseVE.mostrarPantallaPago(pantallaAnterior, tipoVehiculo, lugar); // Muestra la pantalla de pago
+                double costoTotal = calcularCosto(tipoVehiculo, lugar);
+                claseVE.mostrarPantallaPago(pantallaAnterior, tipoVehiculo, lugar, costoTotal); // Muestra la pantalla de pago
             } 
             else 
             {

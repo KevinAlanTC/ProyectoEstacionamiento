@@ -83,11 +83,9 @@ public class GestionLugaresEstacionamiento
 
         // Convertimos minutos simulados a horas simuladas
         long horasSimuladas = minutosSimulados / 60;
-        double costo = horasSimuladas * 20;
-        System.out.print(costo);
         
         // Supongamos que el costo es de 0.20 unidades monetarias por minuto
-        return costo; 
+        return horasSimuladas * 20;
     }
 
     public int generarLlaveUnica(int tipoVehiculo, int lugar) 

@@ -20,6 +20,8 @@ public class VentanaPrincipal extends JFrame
 	
 	public static void main(String[] args)
 	{
+		TiempoSimulado.iniciarReloj();
+		
 		ventana = new JFrame();
 		ventana.setTitle("Estacionamiento");
         ventana.setSize(900, 600);

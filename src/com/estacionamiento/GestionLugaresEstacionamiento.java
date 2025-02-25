@@ -62,7 +62,7 @@ public class GestionLugaresEstacionamiento
             	JOptionPane.showMessageDialog(null, "Has seleccionado Sí.");
                 revisionLugaresEstacionamiento[tipoVehiculo][lugar] = true;
                 int uniqueKey = generarLlaveUnica(tipoVehiculo, lugar);
-                tiempoEntrada.put(uniqueKey, LocalDateTime.now()); // Registrar la hora de entrada
+                tiempoEntrada.put(uniqueKey, TiempoSimulado.ahora()); // Usamos el tiempo simulado // Registrar la hora de entrada
                 claseVE.mostrarConfirmacionReserva(pantallaActual, tipoVehiculo, lugar);
             } 
             else 
@@ -76,13 +76,18 @@ public class GestionLugaresEstacionamiento
     {
         int uniqueKey = generarLlaveUnica(tipoVehiculo, lugar);
         LocalDateTime entrada = tiempoEntrada.get(uniqueKey);
-        LocalDateTime ahora = LocalDateTime.now();
+        LocalDateTime ahora = TiempoSimulado.ahora(); // Usamos el tiempo simulado
 
-        // Calcula la diferencia en horas
-        long horas = java.time.Duration.between(entrada, ahora).toHours();
+        // Calculamos la diferencia en minutos simulados
+        long minutosSimulados = java.time.Duration.between(entrada, ahora).toMinutes();
 
-        // Supongamos que el costo es de 10 unidades monetarias por hora
-        return horas * 10;
+        // Convertimos minutos simulados a horas simuladas
+        long horasSimuladas = minutosSimulados / 60;
+        double costo = horasSimuladas * 20;
+        System.out.print(costo);
+        
+        // Supongamos que el costo es de 0.20 unidades monetarias por minuto
+        return costo; 
     }
 
     public int generarLlaveUnica(int tipoVehiculo, int lugar) 

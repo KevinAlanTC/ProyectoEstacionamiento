@@ -14,7 +14,7 @@ public class TiempoSimulado {
         timer = new Timer(1000, e -> {
             // Incrementamos el tiempo simulado
             tiempoActual = tiempoActual.plusMinutes(1); // Cada segundo real equivale a 1 minuto simulado
-            // tiempoActual = tiempoActual.plusHours(1); // Descomenta esta línea si quieres que cada segundo sea 1 hora simulada
+            // tiempoActual = tiempoActual.plusHours(1); // Descomenta esta lÃ­nea si quieres que cada segundo sea 1 hora simulada
         });
         timer.start();
     }
@@ -27,4 +27,5 @@ public class TiempoSimulado {
         timer.stop();
     }
 }
+
 

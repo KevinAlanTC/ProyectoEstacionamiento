@@ -3,6 +3,7 @@ package com.estacionamiento;
 import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class VentanasEstacionamiento 
 {
@@ -92,6 +93,15 @@ public class VentanasEstacionamiento
         lugarLabel.setBounds(10, 190, 200, 50);
         confirmacionReserva.add(lugarLabel);
 
+        // Obtener la hora de entrada
+        int uniqueKey = claseGLE.generarLlaveUnica(tipoVehiculo, lugar);
+        LocalDateTime horaEntrada = claseGLE.getTiempoEntrada(uniqueKey);
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+
+        JLabel horaEntradaLabel = new JLabel("Hora de Entrada: " + horaEntrada.format(formatoHora));
+        horaEntradaLabel.setBounds(10, 400, 200, 50);
+        confirmacionReserva.add(horaEntradaLabel);
+        
         // Botón de confirmación
         JButton botonConfirmar = new JButton("Confirmar");
         botonConfirmar.setBounds(10, 250, 100, 50);
@@ -146,21 +156,24 @@ public class VentanasEstacionamiento
         detallesPago.setBounds(10, 70, 200, 50);
         pantallaPago.add(detallesPago);
 
+        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+
         // Mostrar la hora de entrada
         int uniqueKey = claseGLE.generarLlaveUnica(tipoVehiculo, lugar);
         LocalDateTime horaEntrada = claseGLE.getTiempoEntrada(uniqueKey);
-        JLabel horaEntradaLabel = new JLabel("Hora de Entrada: " + horaEntrada);
+        JLabel horaEntradaLabel = new JLabel("Hora de Entrada: " + horaEntrada.format(formatoHora));
         horaEntradaLabel.setBounds(10, 130, 300, 50);
         pantallaPago.add(horaEntradaLabel);
-        
-        // Capturar y mostrar la hora de salida
-        LocalDateTime horaSalida = LocalDateTime.now();
-        JLabel horaSalidaLabel = new JLabel("Hora de Salida: " + horaSalida);
+
+        // Capturar y mostrar la hora de salida (tiempo simulado)
+        LocalDateTime horaSalida = TiempoSimulado.ahora();
+        JLabel horaSalidaLabel = new JLabel("Hora de Salida: " + horaSalida.format(formatoHora));
         horaSalidaLabel.setBounds(10, 190, 300, 50);
         pantallaPago.add(horaSalidaLabel);
-        
+
+        // Mostrar costo total
         JLabel costoLabel = new JLabel("Costo total: " + costoTotal + " unidades monetarias");
-        costoLabel.setBounds(10, 250, 200, 50);
+        costoLabel.setBounds(10, 250, 300, 50);
         pantallaPago.add(costoLabel);
         
         // Opciones de Pago (solo un ejemplo básico)

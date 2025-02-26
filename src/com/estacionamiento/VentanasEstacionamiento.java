@@ -162,13 +162,13 @@ public class VentanasEstacionamiento
         int uniqueKey = claseGLE.generarLlaveUnica(tipoVehiculo, lugar);
         LocalDateTime horaEntrada = claseGLE.getTiempoEntrada(uniqueKey);
         JLabel horaEntradaLabel = new JLabel("Hora de Entrada: " + horaEntrada.format(formatoHora));
-        horaEntradaLabel.setBounds(10, 130, 300, 50);
+        horaEntradaLabel.setBounds(10, 190, 300, 50);
         pantallaPago.add(horaEntradaLabel);
 
         // Capturar y mostrar la hora de salida (tiempo simulado)
         LocalDateTime horaSalida = TiempoSimulado.ahora();
         JLabel horaSalidaLabel = new JLabel("Hora de Salida: " + horaSalida.format(formatoHora));
-        horaSalidaLabel.setBounds(10, 190, 300, 50);
+        horaSalidaLabel.setBounds(350, 190, 300, 50);
         pantallaPago.add(horaSalidaLabel);
 
         // Mostrar costo total

@@ -125,5 +125,4 @@ public class GestionLugaresEstacionamiento
             JOptionPane.showMessageDialog(null, "Número de boleto no válido.");
         }
     }
-    
 }

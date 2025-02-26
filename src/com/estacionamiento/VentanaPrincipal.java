@@ -68,7 +68,7 @@ public class VentanaPrincipal extends JFrame
 		primeraPantalla = new JPanel();
 		primeraPantalla.setLayout(null);
 		
-		// Se obtiene la hora y se le da formato
+		/*/ Se obtiene la hora y se le da formato
 		LocalTime horaActual = LocalTime.now();
         DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");
         String horaFormateada = horaActual.format(formato);
@@ -76,7 +76,20 @@ public class VentanaPrincipal extends JFrame
         // Se instancia una etiqueta para mostrar dicha hora 
         horaHMS = new JLabel(""+ horaFormateada);
         horaHMS.setBounds(50, 50, 100, 50);
-        primeraPantalla.add(horaHMS);
+        primeraPantalla.add(horaHMS);*/
+		
+		// Instanciar el JLabel para el reloj simulado
+	    JLabel relojSimuladoLabel = new JLabel();
+	    relojSimuladoLabel.setBounds(700, 10, 200, 50); // Ajusta la posición y tamaño según sea necesario
+	    primeraPantalla.add(relojSimuladoLabel);
+
+	    // Timer para actualizar el reloj simulado cada segundo
+	    Timer actualizarReloj = new Timer(1000, e -> 
+	    {
+	        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+	        relojSimuladoLabel.setText("Tiempo Simulado: " + TiempoSimulado.ahora().format(formatoHora));
+	    });
+	    actualizarReloj.start();
         
         // Se intancia un botón para que el usuario registre su entrada
         JButton botonEntrada = new JButton("Entrada");

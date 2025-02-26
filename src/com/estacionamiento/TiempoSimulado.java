@@ -27,5 +27,3 @@ public class TiempoSimulado {
         timer.stop();
     }
 }
-
-

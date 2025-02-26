@@ -3,11 +3,13 @@ package com.estacionamiento;
 import javax.swing.*;
 import java.time.LocalDateTime;
 
-public class TiempoSimulado {
+public class TiempoSimulado 
+{
     private static LocalDateTime tiempoActual;
     private static Timer timer;
 
-    public static void iniciarReloj() {
+    public static void iniciarReloj() 
+    {
         tiempoActual = LocalDateTime.now();
 
         // Creamos un Timer que se ejecuta cada segundo real
@@ -18,14 +20,14 @@ public class TiempoSimulado {
         });
         timer.start();
     }
-
-    public static LocalDateTime ahora() {
+    
+    public static LocalDateTime ahora() 
+    {
         return tiempoActual;
     }
 
-    public static void detenerReloj() {
+    public static void detenerReloj() 
+    {
         timer.stop();
     }
 }
-
-

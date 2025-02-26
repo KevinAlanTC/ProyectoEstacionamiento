@@ -79,10 +79,10 @@ public class GestionLugaresEstacionamiento
         LocalDateTime ahora = TiempoSimulado.ahora(); // Usamos el tiempo simulado
 
         // Calculamos la diferencia en minutos simulados
-        long minutosSimulados = java.time.Duration.between(entrada, ahora).toMinutes();
+        double minutosSimulados = java.time.Duration.between(entrada, ahora).toMinutes();
 
         // Convertimos minutos simulados a horas simuladas
-        long horasSimuladas = minutosSimulados / 60;
+        double horasSimuladas = minutosSimulados / 60;
         
         // Supongamos que el costo es de 0.20 unidades monetarias por minuto
         return horasSimuladas * 20;
@@ -125,5 +125,4 @@ public class GestionLugaresEstacionamiento
             JOptionPane.showMessageDialog(null, "Número de boleto no válido.");
         }
     }
-    
 }

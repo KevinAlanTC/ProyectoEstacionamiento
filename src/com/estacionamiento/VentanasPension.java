@@ -46,46 +46,143 @@ public class VentanasPension
         VentanaPrincipal.mostrarPantallaActual(escogerLugarPension);
     }
 
-    public void mostrarConfirmacionReserva(JPanel pantallaAnterior, int lugar) 
+    public void mostrarSeleccionDuracion(int lugarSeleccionado, JPanel pantallaAnterior) 
     {
         VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
 
-        // Se instancia el panel principal de esta función
+        JPanel pantallaDuracion = new JPanel();
+        pantallaDuracion.setLayout(null);
+
+        JLabel instruccion = new JLabel("Selecciona la duración de tu pensión:");
+        instruccion.setBounds(10, 10, 300, 30);
+        pantallaDuracion.add(instruccion);
+
+        String[] opcionesDuracion = {"1 día", "1 semana", "1 mes"};
+        JComboBox<String> comboDuracion = new JComboBox<>(opcionesDuracion);
+        comboDuracion.setBounds(10, 50, 200, 30);
+        pantallaDuracion.add(comboDuracion);
+
+        JButton botonContinuar = new JButton("Continuar");
+        botonContinuar.setBounds(10, 100, 100, 30);
+        botonContinuar.addActionListener(e -> 
+        {
+            String duracionSeleccionada = (String) comboDuracion.getSelectedItem();
+            claseGLP.registrarPension(lugarSeleccionado, duracionSeleccionada);
+            mostrarPantallaPagoPension(pantallaDuracion, lugarSeleccionado, duracionSeleccionada);
+        });
+        pantallaDuracion.add(botonContinuar);
+
+        VentanaPrincipal.mostrarPantallaActual(pantallaDuracion);
+    }
+
+    public void mostrarPantallaPagoPension(JPanel pantallaAnterior, int lugar, String duracionSeleccionada) 
+    {
+        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+
+        JPanel pantallaPago = new JPanel();
+        pantallaPago.setLayout(null);
+
+        JLabel mensajePago = new JLabel("Realiza el pago para completar tu reserva:");
+        mensajePago.setBounds(10, 10, 400, 30);
+        pantallaPago.add(mensajePago);
+
+        double costo = claseGLP.calcularCostoPension(duracionSeleccionada);
+
+        JLabel detalleCosto = new JLabel("Costo de la pensión (" + duracionSeleccionada + "): " + costo + " unidades monetarias");
+        detalleCosto.setBounds(10, 50, 400, 30);
+        pantallaPago.add(detalleCosto);
+
+        // Opciones de pago (simplificado)
+        JButton botonPagar = new JButton("Pagar");
+        botonPagar.setBounds(10, 100, 100, 30);
+        botonPagar.addActionListener(e -> 
+        {
+            mostrarConfirmacionReserva(pantallaPago, lugar, duracionSeleccionada, costo);
+        });
+        pantallaPago.add(botonPagar);
+
+        VentanaPrincipal.mostrarPantallaActual(pantallaPago);
+    }
+
+    public void mostrarConfirmacionReserva(JPanel pantallaAnterior, int lugar, String duracion, double costo) 
+    {
+        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+
         JPanel confirmacionReserva = new JPanel();
         confirmacionReserva.setLayout(null);
 
-        // Mensaje de confirmación
-        JLabel mensajeConfirmacion = new JLabel("Reserva confirmada!");
-        mensajeConfirmacion.setBounds(10, 10, 200, 50);
+        JLabel mensajeConfirmacion = new JLabel("Reserva confirmada. ¡Gracias por tu pago!");
+        mensajeConfirmacion.setBounds(10, 10, 400, 30);
         confirmacionReserva.add(mensajeConfirmacion);
 
-        // Detalles de la reserva
-        JLabel detallesReserva = new JLabel("Detalles de la reserva:");
-        detallesReserva.setBounds(10, 70, 200, 50);
-        confirmacionReserva.add(detallesReserva);
-
-        JLabel lugarLabel = new JLabel("Número de Lugar: " + (lugar + 1));
-        lugarLabel.setBounds(10, 130, 200, 50);
+        JLabel lugarLabel = new JLabel("Lugar asignado: " + (lugar + 1));
+        lugarLabel.setBounds(10, 50, 200, 30);
         confirmacionReserva.add(lugarLabel);
 
-        // Botón de confirmación
-        JButton botonConfirmar = new JButton("Confirmar");
-        botonConfirmar.setBounds(10, 190, 100, 50);
-        confirmacionReserva.add(botonConfirmar);
+        JLabel duracionLabel = new JLabel("Duración de la pensión: " + duracion);
+        duracionLabel.setBounds(10, 90, 300, 30);
+        confirmacionReserva.add(duracionLabel);
+
+        JLabel costoLabel = new JLabel("Costo total: " + costo + " unidades monetarias");
+        costoLabel.setBounds(10, 130, 300, 30);
+        confirmacionReserva.add(costoLabel);
+
+        JButton botonFinalizar = new JButton("Finalizar");
+        botonFinalizar.setBounds(10, 170, 100, 30);
+        botonFinalizar.addActionListener(e -> VentanaPrincipal.mostrarPrimeraPantalla(confirmacionReserva));
+        confirmacionReserva.add(botonFinalizar);
 
         VentanaPrincipal.mostrarPantallaActual(confirmacionReserva);
     }
     
-    public void mostrarSalidaPension(JPanel pantallaAnterior)
-	{
-		VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
-		
-		// Se instancia el panel principal de esta función
-		panelSalidaPension = new JPanel();
-		panelSalidaPension.setLayout(null);
-		
-		// Codigo de la funcion
-		
-		VentanaPrincipal.mostrarPantallaActual(panelSalidaPension);
-	}
+    public void mostrarSalidaPension(JPanel pantallaAnterior) 
+    {
+        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+
+        panelSalidaPension = new JPanel();
+        panelSalidaPension.setLayout(null);
+
+        JLabel instruccion = new JLabel("Ingrese su número de boleto para retirar su vehículo:");
+        instruccion.setBounds(10, 10, 400, 30);
+        panelSalidaPension.add(instruccion);
+
+        JTextField campoBoleto = new JTextField();
+        campoBoleto.setBounds(10, 50, 200, 30);
+        panelSalidaPension.add(campoBoleto);
+
+        JButton botonVerificar = new JButton("Verificar Boleto");
+        botonVerificar.setBounds(220, 50, 150, 30);
+        botonVerificar.addActionListener(e -> {
+            int numeroBoleto = Integer.parseInt(campoBoleto.getText());
+            if (claseGLP.verificarBoleto(numeroBoleto)) {
+                mostrarConfirmacionSalida(panelSalidaPension);
+            } else {
+                JOptionPane.showMessageDialog(null, "Boleto no válido o pensión aún vigente.");
+            }
+        });
+        panelSalidaPension.add(botonVerificar);
+
+        VentanaPrincipal.mostrarPantallaActual(panelSalidaPension);
+    }
+
+    public void mostrarConfirmacionSalida(JPanel pantallaAnterior) 
+    {
+        VentanaPrincipal.ocultarPantallaAnterior(pantallaAnterior);
+
+        JPanel confirmacionSalida = new JPanel();
+        confirmacionSalida.setLayout(null);
+
+        JLabel mensajeSalida = new JLabel("Retiro confirmado. Gracias por usar nuestros servicios.");
+        mensajeSalida.setBounds(10, 10, 400, 30);
+        confirmacionSalida.add(mensajeSalida);
+
+        JButton botonFinalizar = new JButton("Finalizar");
+        botonFinalizar.setBounds(10, 50, 100, 30);
+        botonFinalizar.addActionListener(e -> VentanaPrincipal.mostrarPrimeraPantalla(confirmacionSalida));
+        confirmacionSalida.add(botonFinalizar);
+
+        VentanaPrincipal.mostrarPantallaActual(confirmacionSalida);
+    }
+
+    
 }

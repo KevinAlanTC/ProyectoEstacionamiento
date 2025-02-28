@@ -76,6 +76,13 @@ public class VentanaPrincipal extends JFrame
         horaHMS.setBounds(775, -28, 100, 80);
         horaHMS.setFont(fuenteArial);
         primeraPantalla.add(horaHMS);
+        // Timer para actualizar el reloj simulado cada segundo
+	    Timer actualizarReloj = new Timer(1000, e -> 
+	    {
+	        DateTimeFormatter formatoHora = DateTimeFormatter.ofPattern("HH:mm");
+	        horaHMS.setText(" " + TiempoSimulado.ahora().format(formatoHora));
+	    });
+	    actualizarReloj.start();
         
         // Botón para registrar entrada
         JButton botonEntrada = new JButton("Entrada");

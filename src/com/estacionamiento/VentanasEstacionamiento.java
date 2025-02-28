@@ -302,4 +302,47 @@ public class VentanasEstacionamiento
         
         VentanaPrincipal.mostrarPantallaActual(pantallaConfirmacion);
     }
+    
+    // Método para procesar pago en efectivo
+    private void procesarPagoEfectivo(JPanel pantallaPago, double costoTotal) 
+    {
+        boolean pagoValido = false;
+
+        do {
+            String cantidadIngresada = JOptionPane.showInputDialog(pantallaPago, "Ingrese la cantidad con la que pagará:");
+            if (cantidadIngresada != null) {
+                try {
+                    double pago = Double.parseDouble(cantidadIngresada);
+                    if (pago >= costoTotal) {
+                        double cambio = pago - costoTotal;
+                        JOptionPane.showMessageDialog(pantallaPago, "Pago realizado con éxito.\nCambio: " + cambio + " unidades monetarias.");
+                        pagoValido = true;
+                        VentanaPrincipal.mostrarPrimeraPantalla(pantallaPago);
+                    } else {
+                        JOptionPane.showMessageDialog(pantallaPago, "Monto insuficiente. Intente nuevamente.");
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(pantallaPago, "Ingrese un valor numérico válido.");
+                }
+            }
+        } while (!pagoValido);
+    }
+    
+ // Método para procesar pago con tarjeta
+    private void procesarPagoTarjeta(JPanel pantallaPago) 
+    {
+        String numeroTarjeta;
+        boolean tarjetaValida = false;
+
+        do {
+            numeroTarjeta = JOptionPane.showInputDialog(pantallaPago, "Ingrese su número de tarjeta (16 dígitos):");
+            if (numeroTarjeta != null && numeroTarjeta.matches("\\d{16}")) {
+                tarjetaValida = true;
+                JOptionPane.showMessageDialog(pantallaPago, "Pago realizado con éxito. Gracias por su visita.");
+                VentanaPrincipal.mostrarPrimeraPantalla(pantallaPago);
+            } else {
+                JOptionPane.showMessageDialog(pantallaPago, "Número de tarjeta inválido. Intente nuevamente.");
+            }
+        } while (!tarjetaValida);
+    }
 }

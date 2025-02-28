@@ -55,7 +55,7 @@ public class VentanasEstacionamiento
             final int index = i;
             botonescochesLugaresEstacionamiento[i] = new JButton(String.valueOf(1+index + 1000));
             botonescochesLugaresEstacionamiento[i].addActionListener(e -> 
-                claseGLE.comprobarDisponibilidadLugar(0, index, escogerLugarEstacionamiento, botonescochesLugaresEstacionamiento[i])
+                claseGLE.comprobarDisponibilidadLugar(0, index, escogerLugarEstacionamiento, botonescochesLugaresEstacionamiento[index])
             );
             botonescochesLugaresEstacionamiento[i].setBackground(Color.decode("#4C5C68"));
             botonescochesLugaresEstacionamiento[i].setForeground(Color.decode("#FFFFFF"));
@@ -63,7 +63,7 @@ public class VentanasEstacionamiento
             
             botonesmotosLugaresEstacionamiento[i] = new JButton(String.valueOf(1+index + 2000));
             botonesmotosLugaresEstacionamiento[i].addActionListener(e -> 
-                claseGLE.comprobarDisponibilidadLugar(1, index, escogerLugarEstacionamiento, botonescochesLugaresEstacionamiento[i])
+                claseGLE.comprobarDisponibilidadLugar(1, index, escogerLugarEstacionamiento, botonescochesLugaresEstacionamiento[index])
             );
             botonesmotosLugaresEstacionamiento[i].setBackground(Color.decode("#4C5C68"));
             botonesmotosLugaresEstacionamiento[i].setForeground(Color.decode("#FFFFFF"));

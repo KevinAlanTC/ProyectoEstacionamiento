@@ -48,7 +48,8 @@ public class GestionLugaresEstacionamiento
         }
     }
 
-    public void comprobarDisponibilidadLugar(int tipoVehiculo, int lugar, JPanel pantallaActual) 
+    // Se añade el parámetro "JButton btn" para actualizar el ícono del botón.
+    public void comprobarDisponibilidadLugar(int tipoVehiculo, int lugar, JPanel pantallaActual, JButton btn) 
     {
         if (revisionLugaresEstacionamiento[tipoVehiculo][lugar]) 
         {
@@ -56,13 +57,16 @@ public class GestionLugaresEstacionamiento
         } 
         else 
         {
-            int respuesta = JOptionPane.showConfirmDialog(null, "¿Confirmas que deseas este lugar?", "Lugar libre. ¡Enhorabuena!", JOptionPane.YES_NO_OPTION);
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Confirmas que deseas este lugar?", 
+                    "Lugar libre. ¡Enhorabuena!", JOptionPane.YES_NO_OPTION);
             if (respuesta == JOptionPane.YES_OPTION) 
             {
-            	JOptionPane.showMessageDialog(null, "Has seleccionado Sí.");
+                JOptionPane.showMessageDialog(null, "Has seleccionado Sí.");
                 revisionLugaresEstacionamiento[tipoVehiculo][lugar] = true;
                 int uniqueKey = generarLlaveUnica(tipoVehiculo, lugar);
-                tiempoEntrada.put(uniqueKey, TiempoSimulado.ahora()); // Usamos el tiempo simulado // Registrar la hora de entrada
+                tiempoEntrada.put(uniqueKey, TiempoSimulado.ahora());
+                // Actualiza el botón: asigna la imagen del carro.
+                btn.setIcon(new ImageIcon("car.png")); // Asegúrate de que "car.png" esté en la ruta correcta.
                 claseVE.mostrarConfirmacionReserva(pantallaActual, tipoVehiculo, lugar);
             } 
             else 

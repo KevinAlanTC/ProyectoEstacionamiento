@@ -76,17 +76,25 @@ public class GestionLugaresEstacionamiento
     {
         int uniqueKey = generarLlaveUnica(tipoVehiculo, lugar);
         LocalDateTime entrada = tiempoEntrada.get(uniqueKey);
-        LocalDateTime ahora = TiempoSimulado.ahora(); // Usamos el tiempo simulado
+        LocalDateTime ahora = TiempoSimulado.ahora();
 
-        // Calculamos la diferencia en minutos simulados
-        double minutosSimulados = java.time.Duration.between(entrada, ahora).toMinutes();
-
-        // Convertimos minutos simulados a horas simuladas
-        double horasSimuladas = minutosSimulados / 60;
+        // Calculamos la diferencia en minutos
+        long minutosSimulados = java.time.Duration.between(entrada, ahora).toMinutes();
         
-        // Supongamos que el costo es de 0.20 unidades monetarias por minuto
-        return horasSimuladas * 20;
+        // Convertimos a horas y redondeamos hacia arriba
+        long horasCobradas = (long) Math.ceil(minutosSimulados / 60.0);
+        
+        // Tarifa por hora
+        double tarifa = 20.0;
+        
+        // Costo total
+        double costo = horasCobradas * tarifa;
+
+        //System.out.println("Horas cobradas: " + horasCobradas + " - Costo total: $" + costo);
+        
+        return costo;
     }
+
 
     public int generarLlaveUnica(int tipoVehiculo, int lugar) 
     {

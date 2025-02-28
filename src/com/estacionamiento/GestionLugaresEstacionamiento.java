@@ -90,7 +90,7 @@ public class GestionLugaresEstacionamiento
 
     public int generarLlaveUnica(int tipoVehiculo, int lugar) 
     {
-        return tipoVehiculo * 1000 + lugar;
+        return tipoVehiculo * 1000 + (lugar +1);
     }
     
     public LocalDateTime getTiempoEntrada(int uniqueKey) 
@@ -105,7 +105,7 @@ public class GestionLugaresEstacionamiento
         {
             int numeroBoleto = Integer.parseInt(numeroBoletoStr);
             int tipoVehiculo = (numeroBoleto >= 2000) ? 1 : 0; // Determina el tipo de vehículo basado en el número de boleto
-            int lugar = numeroBoleto % 1000; // Obtiene el número de lugar del boleto
+            int lugar = (numeroBoleto % 1000) - 1; // Obtiene el número de lugar del boleto
 
             // Verifica si el lugar está ocupado y el boleto es válido
             if (revisionLugaresEstacionamiento[tipoVehiculo][lugar]) 

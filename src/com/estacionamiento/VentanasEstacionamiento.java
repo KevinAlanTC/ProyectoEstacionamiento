@@ -49,7 +49,7 @@ public class VentanasEstacionamiento
         for (int i = 0; i < 8; i++) 
         {
             final int index = i;
-            botonescochesLugaresEstacionamiento[i] = new JButton(String.valueOf(index + 1000));
+            botonescochesLugaresEstacionamiento[i] = new JButton(String.valueOf(1+index + 1000));
             botonescochesLugaresEstacionamiento[i].addActionListener(e -> 
                 claseGLE.comprobarDisponibilidadLugar(0, index, escogerLugarEstacionamiento)
             );
@@ -57,7 +57,7 @@ public class VentanasEstacionamiento
             botonescochesLugaresEstacionamiento[i].setForeground(Color.decode("#FFFFFF"));
             cochesLugaresEstacionamiento.add(botonescochesLugaresEstacionamiento[i]);
             
-            botonesmotosLugaresEstacionamiento[i] = new JButton(String.valueOf(index + 1000));
+            botonesmotosLugaresEstacionamiento[i] = new JButton(String.valueOf(1+index + 1000));
             botonesmotosLugaresEstacionamiento[i].addActionListener(e -> 
                 claseGLE.comprobarDisponibilidadLugar(1, index, escogerLugarEstacionamiento)
             );
@@ -117,8 +117,8 @@ public class VentanasEstacionamiento
         
         // Mensaje de confirmación (funcionalidad de la versión original)
         int numeroBoleto = (tipoVehiculo == 0 ? 1000 : 2000) + lugar;
-        JLabel mensajeConfirmacion = new JLabel("Reserva confirmada! Tu número de boleto es: " + numeroBoleto);
-        mensajeConfirmacion.setBounds(10, 10, 400, 50);
+        JLabel mensajeConfirmacion = new JLabel(" " + (numeroBoleto+1));
+        mensajeConfirmacion.setBounds(450, 140, 200, 50);
         mensajeConfirmacion.setFont(fuenteArial);
         confirmacionReserva.add(mensajeConfirmacion);
         

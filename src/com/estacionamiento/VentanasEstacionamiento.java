@@ -254,14 +254,14 @@ public class VentanasEstacionamiento
         // Opciones de pago
         JButton botonPagoTarjeta = new JButton("Pagar con Tarjeta");
         botonPagoTarjeta.setBounds(480, 357, 194, 50);
-        botonPagoTarjeta.addActionListener(e -> mostrarPantallaConfirmacion(pantallaPago));
+        botonPagoTarjeta.addActionListener(e -> procesarPagoTarjeta(pantallaPago));
         botonPagoTarjeta.setBackground(Color.decode("#4C5C68"));
         botonPagoTarjeta.setForeground(Color.decode("#FFFFFF"));
         pantallaPago.add(botonPagoTarjeta);
         
         JButton botonPagoEfectivo = new JButton("Pagar en Efectivo");
         botonPagoEfectivo.setBounds(198, 357, 194, 50);
-        botonPagoEfectivo.addActionListener(e -> mostrarPantallaConfirmacion(pantallaPago));
+        botonPagoEfectivo.addActionListener(e -> procesarPagoEfectivo(pantallaPago, costoTotal));
         botonPagoEfectivo.setBackground(Color.decode("#4C5C68"));
         botonPagoEfectivo.setForeground(Color.decode("#FFFFFF"));
         pantallaPago.add(botonPagoEfectivo);
@@ -301,5 +301,51 @@ public class VentanasEstacionamiento
         pantallaConfirmacion.add(etiPro1);
         
         VentanaPrincipal.mostrarPantallaActual(pantallaConfirmacion);
+    }
+    
+    // Método para procesar pago en efectivo
+    private void procesarPagoEfectivo(JPanel pantallaPago, double costoTotal) 
+    {
+        boolean pagoValido = false;
+
+        do {
+            String cantidadIngresada = JOptionPane.showInputDialog(pantallaPago, "Ingrese la cantidad con la que pagará:");
+            if (cantidadIngresada != null) {
+                try {
+                    double pago = Double.parseDouble(cantidadIngresada);
+                    if (pago >= costoTotal) {
+                        double cambio = pago - costoTotal;
+                        JOptionPane.showMessageDialog(pantallaPago, "Pago realizado con éxito.\nCambio: $" + cambio);
+                        pagoValido = true;
+                        mostrarPantallaConfirmacion(pantallaPago);
+                    } else {
+                        JOptionPane.showMessageDialog(pantallaPago, "Monto insuficiente. Intente nuevamente.");
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(pantallaPago, "Ingrese un valor numérico válido.");
+                }
+            }
+        } while (!pagoValido);
+        
+        mostrarPantallaConfirmacion(pantallaPago);
+    }
+    
+ // Método para procesar pago con tarjeta
+    private void procesarPagoTarjeta(JPanel pantallaPago) 
+    {
+        String numeroTarjeta;
+        boolean tarjetaValida = false;
+
+        do {
+            numeroTarjeta = JOptionPane.showInputDialog(pantallaPago, "Ingrese su número de tarjeta (16 dígitos):");
+            if (numeroTarjeta != null && numeroTarjeta.matches("\\d{16}")) {
+                tarjetaValida = true;
+                JOptionPane.showMessageDialog(pantallaPago, "Pago realizado con éxito. Gracias por su visita.");                
+                mostrarPantallaConfirmacion(pantallaPago);
+            } else {
+                JOptionPane.showMessageDialog(pantallaPago, "Número de tarjeta inválido. Intente nuevamente.");
+            }
+        } while (!tarjetaValida);
+
     }
 }

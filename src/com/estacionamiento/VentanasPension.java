@@ -179,7 +179,7 @@ public class VentanasPension {
         duracionLabel.setFont(fuenteArial);
         pantallaPago.add(duracionLabel);
 
-        JLabel costoLabel = new JLabel("Costo total: " + costoTotal + " unidades monetarias");
+        JLabel costoLabel = new JLabel("Costo total: $" + costoTotal);
         costoLabel.setBounds(10, 190, 300, 50);
         costoLabel.setFont(fuenteArial);
         pantallaPago.add(costoLabel);
@@ -188,14 +188,14 @@ public class VentanasPension {
         botonPagoTarjeta.setBounds(10, 250, 150, 50);
         botonPagoTarjeta.setBackground(Color.decode("#4C5C68"));
         botonPagoTarjeta.setForeground(Color.decode("#FFFFFF"));
-        botonPagoTarjeta.addActionListener(e -> mostrarPantallaConfirmacion(pantallaPago));
+        botonPagoTarjeta.addActionListener(e -> procesarPagoTarjetaPension(pantallaPago));
         pantallaPago.add(botonPagoTarjeta);
 
         JButton botonPagoEfectivo = new JButton("Pagar en Efectivo");
         botonPagoEfectivo.setBounds(170, 250, 150, 50);
         botonPagoEfectivo.setBackground(Color.decode("#4C5C68"));
         botonPagoEfectivo.setForeground(Color.decode("#FFFFFF"));
-        botonPagoEfectivo.addActionListener(e -> mostrarPantallaConfirmacion(pantallaPago));
+        botonPagoEfectivo.addActionListener(e -> procesarPagoEfectivoPension(pantallaPago, costoTotal));
         pantallaPago.add(botonPagoEfectivo);
 
         VentanaPrincipal.mostrarPantallaActual(pantallaPago);
@@ -223,4 +223,48 @@ public class VentanasPension {
 
         VentanaPrincipal.mostrarPantallaActual(pantallaConfirmacion);
     }
+    
+ // Método para procesar pago con tarjeta en pensión
+    private void procesarPagoTarjetaPension(JPanel pantallaPension) 
+    {
+        String numeroTarjeta;
+        boolean tarjetaValida = false;
+
+        do {
+            numeroTarjeta = JOptionPane.showInputDialog(pantallaPension, "Ingrese su número de tarjeta (16 dígitos):");
+            if (numeroTarjeta != null && numeroTarjeta.matches("\\d{16}")) {
+                tarjetaValida = true;
+                JOptionPane.showMessageDialog(pantallaPension, "Pago de pensión realizado con éxito. Gracias.");
+                mostrarPantallaConfirmacion(pantallaPension);
+            } else {
+                JOptionPane.showMessageDialog(pantallaPension, "Número de tarjeta inválido. Intente nuevamente.");
+            }
+        } while (!tarjetaValida);
+    }
+
+    // Método para procesar pago en efectivo en pensión
+    private void procesarPagoEfectivoPension(JPanel pantallaPension, double costoPension) 
+    {
+        boolean pagoValido = false;
+
+        do {
+            String cantidadIngresada = JOptionPane.showInputDialog(pantallaPension, "Ingrese la cantidad con la que pagará:");
+            if (cantidadIngresada != null) {
+                try {
+                    double pago = Double.parseDouble(cantidadIngresada);
+                    if (pago >= costoPension) {
+                        double cambio = pago - costoPension;
+                        JOptionPane.showMessageDialog(pantallaPension, "Pago de pensión realizado con éxito.\nCambio: $" + cambio);
+                        pagoValido = true;
+                        mostrarPantallaConfirmacion(pantallaPension);
+                    } else {
+                        JOptionPane.showMessageDialog(pantallaPension, "Monto insuficiente. Intente nuevamente.");
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(pantallaPension, "Ingrese un valor numérico válido.");
+                }
+            }
+        } while (!pagoValido);
+    }
+
 }

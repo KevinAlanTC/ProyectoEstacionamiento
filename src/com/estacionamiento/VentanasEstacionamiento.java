@@ -12,6 +12,9 @@ public class VentanasEstacionamiento
     
     private JPanel escogerLugarEstacionamiento, panelSalidaEstacionamiento;
 
+    // Declaramos arrays para los botones (estáticos para poder acceder desde GestionLugaresEstacionamiento)
+    public static JButton[] botonescochesLugaresEstacionamiento, botonesmotosLugaresEstacionamiento;
+
     // Constructor que recibe una instancia de GestionLugaresEstacionamiento
     public VentanasEstacionamiento(GestionLugaresEstacionamiento claseGLE) 
     {
@@ -44,15 +47,15 @@ public class VentanasEstacionamiento
         motosLugaresEstacionamiento.setOpaque(false);
         
         // Arreglos de botones para coches y motos (se asigna un número a cada botón)
-        JButton[] botonescochesLugaresEstacionamiento = new JButton[8];
-        JButton[] botonesmotosLugaresEstacionamiento = new JButton[8];
+        botonescochesLugaresEstacionamiento = new JButton[8];
+        botonesmotosLugaresEstacionamiento = new JButton[8];
         
         for (int i = 0; i < 8; i++) 
         {
             final int index = i;
             botonescochesLugaresEstacionamiento[i] = new JButton(String.valueOf(1+index + 1000));
             botonescochesLugaresEstacionamiento[i].addActionListener(e -> 
-                claseGLE.comprobarDisponibilidadLugar(0, index, escogerLugarEstacionamiento)
+                claseGLE.comprobarDisponibilidadLugar(0, index, escogerLugarEstacionamiento, botonescochesLugaresEstacionamiento[i])
             );
             botonescochesLugaresEstacionamiento[i].setBackground(Color.decode("#4C5C68"));
             botonescochesLugaresEstacionamiento[i].setForeground(Color.decode("#FFFFFF"));
@@ -60,7 +63,7 @@ public class VentanasEstacionamiento
             
             botonesmotosLugaresEstacionamiento[i] = new JButton(String.valueOf(1+index + 2000));
             botonesmotosLugaresEstacionamiento[i].addActionListener(e -> 
-                claseGLE.comprobarDisponibilidadLugar(1, index, escogerLugarEstacionamiento)
+                claseGLE.comprobarDisponibilidadLugar(1, index, escogerLugarEstacionamiento, botonescochesLugaresEstacionamiento[i])
             );
             botonesmotosLugaresEstacionamiento[i].setBackground(Color.decode("#4C5C68"));
             botonesmotosLugaresEstacionamiento[i].setForeground(Color.decode("#FFFFFF"));

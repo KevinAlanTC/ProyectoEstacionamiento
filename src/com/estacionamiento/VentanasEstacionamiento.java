@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.text.DecimalFormat;
 
 public class VentanasEstacionamiento 
 {
@@ -57,7 +58,7 @@ public class VentanasEstacionamiento
             botonescochesLugaresEstacionamiento[i].setForeground(Color.decode("#FFFFFF"));
             cochesLugaresEstacionamiento.add(botonescochesLugaresEstacionamiento[i]);
             
-            botonesmotosLugaresEstacionamiento[i] = new JButton(String.valueOf(1+index + 1000));
+            botonesmotosLugaresEstacionamiento[i] = new JButton(String.valueOf(1+index + 2000));
             botonesmotosLugaresEstacionamiento[i].addActionListener(e -> 
                 claseGLE.comprobarDisponibilidadLugar(1, index, escogerLugarEstacionamiento)
             );
@@ -242,7 +243,10 @@ public class VentanasEstacionamiento
         horaSalidaLabel.setFont(fuenteArial);
         pantallaPago.add(horaSalidaLabel);
         
-        JLabel costoLabel = new JLabel("$" + costoTotal);
+        // Formateador para siempre mostrar dos decimales
+        DecimalFormat formatCostoTotal = new DecimalFormat("#.00");
+        
+        JLabel costoLabel = new JLabel("$" + formatCostoTotal.format(costoTotal));
         costoLabel.setBounds(600, 240, 300, 50);
         costoLabel.setFont(fuenteArial);
         pantallaPago.add(costoLabel);
